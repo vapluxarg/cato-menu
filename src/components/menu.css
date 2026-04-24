@@ -1,0 +1,121 @@
+.public-menu-container {
+  min-height: 100dvh;
+  padding-bottom: 4rem;
+  overflow-x: hidden;
+}
+
+/* Themes */
+.theme-cafe {
+  background-color: var(--cafe-bg);
+  color: var(--cafe-fg);
+}
+.theme-bar {
+  background-color: var(--bar-bg);
+  color: var(--bar-fg);
+}
+
+.glass-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* very subtle, no hard 1px rule but needed for contrast sometimes, wait, DESIGN says NO BORDERS. I will remove. */
+  border-bottom: none;
+}
+
+.back-link {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  padding: 12px 24px; /* massive padding */
+}
+
+.theme-cafe .back-link {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
+
+.theme-bar .back-link {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
+
+.menu-header {
+  padding: 4rem 2rem 2rem 2rem;
+}
+
+.main-title {
+  /* Do not center align: "always flush-left" */
+  text-align: left;
+  margin-left: -4px; /* slight bleeding effect */
+}
+
+.menu-categories {
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 48px; /* "Use 48px of vertical white space..." */
+  position: relative;
+  z-index: 1; /* Ensures solid opacity over the new background pattern */
+}
+
+.category-block {
+  padding: 1.5rem;
+  /* Shift background instead of borders */
+}
+
+.theme-cafe .category-block {
+  background-color: var(--cream-warm); /* Button cream */
+  opacity: 1; /* Explicitly 100% opacity */
+}
+
+.theme-bar .category-block {
+  background-color: var(--primary); /* Red */
+  opacity: 1; /* Explicitly 100% opacity */
+}
+
+.category-title {
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  border-bottom: none; /* NO BORDERS */
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.product-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  max-width: 70%;
+}
+
+.product-price {
+  font-size: 1.25rem;
+  color: var(--primary); /* Highlight price with primary */
+}
+
+.theme-bar .product-name {
+  color: var(--surface); /* Black product names on red */
+}
+
+.theme-bar .product-price {
+  color: #ffffff;
+}
+
+.theme-bar .category-title {
+  color: #ffffff;
+}

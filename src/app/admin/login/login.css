@@ -1,0 +1,48 @@
+.login-container {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface);
+  padding: 1rem;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 3rem 2rem;
+  /* Shift background instead of borders */
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.login-header h1 {
+  margin-top: 1rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group input {
+  padding: 1rem;
+  background-color: var(--surface-container-highest);
+  color: var(--on-surface);
+  font-size: 1rem;
+}
+
+.input-group input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}

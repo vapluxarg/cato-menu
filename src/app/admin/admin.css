@@ -1,0 +1,159 @@
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.admin-header {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--surface-container-high);
+  position: sticky;
+  top: 0;
+  background-color: var(--surface);
+  z-index: 100;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.admin-nav a {
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.admin-nav a:hover {
+  color: var(--primary);
+}
+
+.logout-btn:hover {
+  opacity: 0.7;
+}
+
+.admin-content {
+  margin-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+/* Common Admin Table Styles */
+.admin-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.admin-data-table th, .admin-data-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-container-high);
+}
+
+.admin-data-table th {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  color: var(--primary);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.admin-data-table tr:hover {
+  background-color: var(--surface-container-lowest);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .admin-nav {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.875rem;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .admin-data-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+
+
+.admin-card {
+  background: var(--surface-container-low);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  align-items: flex-end;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.admin-input {
+  padding: 12px;
+  border: 1px solid var(--surface-container-high);
+  background: var(--surface);
+  color: var(--on-surface);
+  border-radius: 4px;
+}
+
+.inline-edit-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .inline-edit-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .inline-edit-form .admin-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  .inline-edit-form button {
+    width: 100%;
+    padding: 0.75rem !important;
+  }
+}
+

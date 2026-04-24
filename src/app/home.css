@@ -1,0 +1,133 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--cream-bright);
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Professional Minimalist Background Pattern */
+.professional-bg-wrapper {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.professional-bg-pattern {
+  position: absolute;
+  top: 0; left: 0;
+  width: calc(100vw + 160px);
+  height: calc(100dvh + 160px);
+  color: var(--on-secondary);
+  opacity: 0.08; /* More noticeable per user feedback */
+  pointer-events: none;
+  animation: panProfessionalPattern 30s linear infinite;
+}
+
+@keyframes panProfessionalPattern {
+  0% { transform: translate(-160px, -160px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.home-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.home-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  border-radius: 9999px; /* Classic pill shape */
+  border: 2px solid var(--on-secondary);
+  box-shadow: 4px 4px 0px 0px var(--on-secondary);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  text-decoration: none;
+}
+
+.home-action-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0px 0px var(--on-secondary);
+}
+
+.home-action-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--on-secondary);
+}
+
+.cafe-action-btn {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+.cafe-action-btn:hover {
+  background-color: var(--on-secondary);
+  color: var(--secondary);
+}
+
+.bar-action-btn {
+  background-color: var(--primary);
+  color: var(--on-primary-container);
+  border-color: var(--on-primary-container);
+  box-shadow: 4px 4px 0px 0px var(--on-primary-container);
+}
+
+.bar-action-btn:hover {
+  box-shadow: 8px 8px 0px 0px var(--on-primary-container);
+  background-color: var(--on-primary-container);
+  color: var(--primary);
+}
+
+.bar-action-btn:active {
+  box-shadow: 2px 2px 0px 0px var(--on-primary-container);
+}
+
+.home-footer {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.instagram-link {
+  color: var(--on-secondary);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.instagram-link:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1));
+}
