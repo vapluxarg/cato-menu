@@ -1,8 +1,8 @@
-# 🐈 Cato Menu
+# Cato Menu
 
 **Cato Menu** es una plataforma de menú digital moderna, rápida y elegante diseñada para locales gastronómicos que buscan ofrecer una experiencia premium a sus clientes. Cuenta con una gestión administrativa robusta y dos interfaces visuales optimizadas para diferentes momentos del día: **Café** y **Bar**.
 
-![Demo Preview](public/Captura%20de%20pantalla%202026-04-22%20190616.png)
+
 
 ## 🚀 Características Principales
 
@@ -69,6 +69,3 @@ src/
 - **Rendimiento**: Se ha priorizado el uso de Server Components donde es posible para minimizar el JS enviado al cliente, manteniendo la interactividad en el Panel de Admin mediante Client Components específicos.
 - **Diseño Móvil**: El panel de administración utiliza formularios apilables dinámicamente para garantizar que la edición de productos sea cómoda en pantallas pequeñas desde un celular.
 
----
-
-Desarrollado con ❤️ para **Cato**.
