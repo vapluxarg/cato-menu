@@ -22,7 +22,7 @@ export default async function ExportPage() {
 
       <h1 className="headline-lg">Exportar Menú</h1>
       <p className="body-md" style={{ marginBottom: '2rem' }}>
-        Hacé clic en los botones para descargar la imagen en formato 9:16 para Instagram Stories.
+        Hacé clic en las miniaturas de abajo para descargar la imagen en formato 9:16 para Instagram Stories.
       </p>
 
       {/*

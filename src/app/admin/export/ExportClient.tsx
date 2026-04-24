@@ -67,7 +67,7 @@ export default function ExportClient() {
     const ctx = out.getContext('2d')!;
 
     // Fill background matching the theme
-    ctx.fillStyle = id.includes('cafe') ? '#F5F0E8' : '#FF3300';
+    ctx.fillStyle = id.includes('cafe') ? '#FCFAF5' : '#FF3300';
     ctx.fillRect(0, 0, TARGET_W, TARGET_H);
 
     // Scale-to-fit, centered
@@ -90,48 +90,54 @@ export default function ExportClient() {
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-        <button
-          className="btn btn-secondary"
-          onClick={() => exportImage('export-cafe', 'menu-cafe.png')}
-        >
-          ↓ Descargar Menú Café (PNG 9:16)
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => exportImage('export-bar', 'menu-bar.png')}
-        >
-          ↓ Descargar Menú Bar (PNG 9:16)
-        </button>
-      </div>
 
-      {/* Placeholder previews */}
+
+      {/* Clickable previews */}
       <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div style={{ textAlign: 'center' }}>
+        <div 
+          onClick={() => exportImage('export-cafe', 'menu-cafe.png')}
+          style={{ textAlign: 'center', cursor: 'pointer' }}
+          className="menu-preview-card"
+        >
           <div style={{
-            width: '135px', height: '240px',
+            width: '180px', height: '320px',
             backgroundColor: '#F5F0E8', border: '4px solid #FF3300',
             display: 'flex', flexDirection: 'column',
-            justifyContent: 'center', alignItems: 'center', gap: '8px',
-          }}>
-            <div style={{ fontSize: '24px', fontWeight: 900, color: '#131313', letterSpacing: '-1px' }}>MENU</div>
-            <div style={{ width: '80%', height: '2px', backgroundColor: '#FF3300' }} />
-            <div style={{ fontSize: '9px', color: '#131313', opacity: 0.6 }}>Cafetería</div>
+            justifyContent: 'center', alignItems: 'center', gap: '12px',
+            transition: 'transform 0.2s',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <div style={{ fontSize: '32px', fontWeight: 900, color: '#131313', letterSpacing: '-1.5px' }}>MENU</div>
+            <div style={{ width: '80%', height: '3px', backgroundColor: '#FF3300' }} />
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#131313', opacity: 0.6, textTransform: 'uppercase' }}>Cafetería</div>
           </div>
-          <p style={{ fontSize: '12px', marginTop: '8px', opacity: 0.6 }}>Café</p>
+          <p style={{ fontSize: '14px', fontWeight: 600, marginTop: '12px', color: '#131313' }}>Descargar Café</p>
         </div>
-        <div style={{ textAlign: 'center' }}>
+
+        <div 
+          onClick={() => exportImage('export-bar', 'menu-bar.png')}
+          style={{ textAlign: 'center', cursor: 'pointer' }}
+          className="menu-preview-card"
+        >
           <div style={{
-            width: '135px', height: '240px',
+            width: '180px', height: '320px',
             backgroundColor: '#FF3300', border: '4px solid #131313',
             display: 'flex', flexDirection: 'column',
-            justifyContent: 'center', alignItems: 'center', gap: '8px',
-          }}>
-            <div style={{ fontSize: '24px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-1px' }}>MENU</div>
-            <div style={{ width: '80%', height: '2px', backgroundColor: '#131313' }} />
-            <div style={{ fontSize: '9px', color: '#FFFFFF', opacity: 0.7 }}>Bar</div>
+            justifyContent: 'center', alignItems: 'center', gap: '12px',
+            transition: 'transform 0.2s',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <div style={{ fontSize: '32px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-1.5px' }}>MENU</div>
+            <div style={{ width: '80%', height: '3px', backgroundColor: '#131313' }} />
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', opacity: 0.8, textTransform: 'uppercase' }}>Bar</div>
           </div>
-          <p style={{ fontSize: '12px', marginTop: '8px', opacity: 0.6 }}>Bar</p>
+          <p style={{ fontSize: '14px', fontWeight: 600, marginTop: '12px', color: '#131313' }}>Descargar Bar</p>
         </div>
       </div>
 
