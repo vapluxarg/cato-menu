@@ -26,10 +26,11 @@ export default function BackgroundPattern() {
                 50% { transform: translate(25px, 0px) rotate(-5deg); }
               }
               @keyframes sparkle-pulse {
-                0%, 45% { opacity: 0; transform: scale(0.5); }
-                50% { opacity: 1; transform: scale(1.2); }
-                55%, 100% { opacity: 0; transform: scale(0.5); }
+                0% { opacity: 0; transform: scale(0.3); }
+                30%, 70% { opacity: 0.4; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0.3); }
               }
+
               .glass-l-anim { animation: clink-left 2s ease-in-out infinite; transform-origin: 25px 50px; }
               .glass-r-anim { animation: clink-right 2s ease-in-out infinite; transform-origin: 25px 50px; }
               .sparkle-anim { animation: sparkle-pulse 2s ease-in-out infinite; transform-origin: center; }
