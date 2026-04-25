@@ -23,24 +23,26 @@ const InstagramIcon = ({ size = 24 }: { size?: number }) => (
 );
 
 export default function Home() {
+  const showAnimation = process.env.NEXT_PUBLIC_SHOW_ANIMATIONS !== 'false'
+
   return (
     <main className="home-container">
       {/* Seamless Minimalist Background Pattern */}
-      <BackgroundPattern />
+      <BackgroundPattern showAnimation={showAnimation} />
 
       <div className="home-content">
         <div className="home-logo-container">
           <Image src="/cato.svg" alt="Cato Logo" width={400} height={160} className="logo-img" priority />
         </div>
-        
+
         <div className="home-actions">
           <Link href="/cafe" className="home-action-btn cafe-action-btn" prefetch={true}>
             <Coffee size={24} />
-            <span className="title-lg">Cafetería</span>
+            <span className="title-lg" style={{ fontSize: "1.5rem" }}>Cafetería</span>
           </Link>
           <Link href="/bar" className="home-action-btn bar-action-btn" prefetch={true}>
             <Martini size={24} />
-            <span className="title-lg">Bar</span>
+            <span className="title-lg" style={{ fontSize: "1.5rem" }}>Bar</span>
           </Link>
         </div>
       </div>

@@ -1,6 +1,8 @@
 import React from "react";
 
-export default function BackgroundPattern() {
+export default function BackgroundPattern({ showAnimation = true }: { showAnimation?: boolean }) {
+  if (!showAnimation) return null;
+
   return (
     <div className="professional-bg-wrapper">
       <div className="professional-bg-pattern">
@@ -16,6 +18,16 @@ export default function BackgroundPattern() {
               .smoke-anim-1 { animation: smoke-float 3s linear infinite; }
               .smoke-anim-2 { animation: smoke-float 4s linear infinite 1s; }
               .smoke-anim-3 { animation: smoke-float 2.5s linear infinite 0.5s; }
+              
+              .no-animation .smoke-anim-1,
+              .no-animation .smoke-anim-2,
+              .no-animation .smoke-anim-3,
+              .no-animation .glass-l-anim,
+              .no-animation .glass-r-anim,
+              .no-animation .sparkle-anim {
+                animation: none !important;
+                opacity: 0.6;
+              }
               
               @keyframes clink-left {
                 0%, 100% { transform: translate(-15px, 5px) rotate(15deg); }

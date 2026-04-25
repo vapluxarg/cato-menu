@@ -1,10 +1,11 @@
 'use client'
 
 import React, { useState } from 'react'
-import { 
-  addProduct, updateProduct, deleteProduct, 
-  addCategory, updateCategory, deleteCategory 
+import {
+  addProduct, updateProduct, deleteProduct,
+  addCategory, updateCategory, deleteCategory
 } from '@/app/admin/actions'
+import { Pencil, Trash2, Check, X, Plus, AlertCircle } from 'lucide-react'
 
 type Category = {
   id: string
@@ -25,15 +26,15 @@ type Product = {
 }
 
 
-export default function AdminManager({ 
-  initialCategories, 
-  initialProducts 
-}: { 
-  initialCategories: Category[], 
-  initialProducts: Product[] 
+export default function AdminManager({
+  initialCategories,
+  initialProducts
+}: {
+  initialCategories: Category[],
+  initialProducts: Product[]
 }) {
   const [activeTab, setActiveTab] = useState<'categories' | 'products'>('categories')
-  
+
   // Edit State Maps (id -> isEditing)
   const [editingCategory, setEditingCategory] = useState<string | null>(null)
   const [editingProduct, setEditingProduct] = useState<string | null>(null)
@@ -41,6 +42,20 @@ export default function AdminManager({
   // Filtering State
   const [searchQuery, setSearchQuery] = useState('')
   const [filterType, setFilterType] = useState<'all' | 'cafe' | 'bar'>('all')
+  const [itemToDelete, setItemToDelete] = useState<{ id: string, name: string, type: 'category' | 'product' } | null>(null)
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return
+    const formData = new FormData()
+    formData.append('id', itemToDelete.id)
+    
+    if (itemToDelete.type === 'category') {
+      await deleteCategory(formData)
+    } else {
+      await deleteProduct(formData)
+    }
+    setItemToDelete(null)
+  }
 
   const filteredProducts = initialProducts.filter(prod => {
     const matchesSearch = prod.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -51,37 +66,16 @@ export default function AdminManager({
   return (
     <div style={{ marginTop: '2rem' }}>
       {/* Tabs */}
-      <div style={{ 
-        display: 'flex', 
-        gap: '0.5rem', 
-        marginBottom: '2rem', 
-        borderBottom: '2px solid var(--surface-container-highest)', 
-        paddingBottom: '1rem',
-        overflowX: 'auto'
-      }}>
-        <button 
+      <div className="admin-tabs-container">
+        <button
           onClick={() => setActiveTab('categories')}
-          className="btn"
-          style={{ 
-            padding: '0.75rem 1.25rem', 
-            backgroundColor: activeTab === 'categories' ? 'var(--on-surface)' : 'transparent',
-            color: activeTab === 'categories' ? 'var(--surface)' : 'var(--on-surface)',
-            border: activeTab === 'categories' ? 'none' : '2px solid var(--on-surface)',
-            whiteSpace: 'nowrap'
-          }}
+          className={`tab-btn ${activeTab === 'categories' ? 'active' : ''}`}
         >
           Categorías
         </button>
-        <button 
+        <button
           onClick={() => setActiveTab('products')}
-          className="btn"
-          style={{ 
-            padding: '0.75rem 1.25rem', 
-            backgroundColor: activeTab === 'products' ? 'var(--on-surface)' : 'transparent',
-            color: activeTab === 'products' ? 'var(--surface)' : 'var(--on-surface)',
-            border: activeTab === 'products' ? 'none' : '2px solid var(--on-surface)',
-            whiteSpace: 'nowrap'
-          }}
+          className={`tab-btn ${activeTab === 'products' ? 'active' : ''}`}
         >
           Productos
         </button>
@@ -109,7 +103,10 @@ export default function AdminManager({
                 <label>Orden</label>
                 <input name="order_idx" type="number" defaultValue="0" className="admin-input" />
               </div>
-              <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 1.5rem', backgroundColor: 'var(--on-surface)', color: 'var(--surface)', borderRadius: '4px' }}>Añadir</button>
+              <button type="submit" className="btn-admin btn-admin-primary" style={{ height: '48px' }}>
+                <Plus size={18} />
+                Crear Categoría
+              </button>
             </form>
           </div>
 
@@ -117,7 +114,7 @@ export default function AdminManager({
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h2 className="title-md">Listado de Categorías</h2>
           </div>
-          
+
           <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <table className="admin-data-table">
               <thead>
@@ -134,38 +131,58 @@ export default function AdminManager({
                     {editingCategory === cat.id ? (
 
                       <td colSpan={4} style={{ padding: '1rem' }}>
-                        <form 
-                          action={(formData) => { updateCategory(formData); setEditingCategory(null); }} 
+                        <form
+                          action={(formData) => { updateCategory(formData); setEditingCategory(null); }}
                           className="inline-edit-form"
                         >
                           <input type="hidden" name="id" value={cat.id} />
-                          <input name="name" defaultValue={cat.name} required className="admin-input" style={{ flex: 1, minWidth: '150px' }} />
-                          <select name="type" defaultValue={cat.type} required className="admin-input">
-                            <option value="cafe">Cafe</option>
-                            <option value="bar">Bar</option>
-                            <option value="both">Ambos</option>
-                          </select>
-                          <input name="order_idx" type="number" defaultValue={cat.order_idx ?? 0} className="admin-input" style={{ width: '80px' }} />
-                          <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: 'var(--on-surface)', color: 'var(--surface)', border: 'none', cursor: 'pointer', borderRadius: '4px' }}>Guardar</button>
-                          <button type="button" onClick={() => setEditingCategory(null)} style={{ padding: '0.5rem 1rem', cursor: 'pointer', background: 'none', border: '1px solid var(--on-surface-variant)', borderRadius: '4px' }}>Cancelar</button>
+                          <div className="input-group">
+                            <label>Nombre</label>
+                            <input name="name" defaultValue={cat.name} required className="admin-input" />
+                          </div>
+                          <div className="input-group">
+                            <label>Tipo Visual</label>
+                            <select name="type" defaultValue={cat.type} required className="admin-input">
+                              <option value="cafe">Cafe</option>
+                              <option value="bar">Bar</option>
+                              <option value="both">Ambos</option>
+                            </select>
+                          </div>
+                          <div className="input-group">
+                            <label>Orden</label>
+                            <input name="order_idx" type="number" defaultValue={cat.order_idx ?? 0} className="admin-input" />
+                          </div>
+                          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.25rem' }}>
+                            <button type="submit" className="btn-icon btn-save" title="Guardar"><Check size={20} /></button>
+                            <button type="button" onClick={() => setEditingCategory(null)} className="btn-icon btn-cancel" title="Cancelar"><X size={20} /></button>
+                          </div>
                         </form>
                       </td>
 
                     ) : (
                       <>
-                        <td>{cat.name}</td>
-                        <td><span style={{ textTransform: 'capitalize', fontSize: '0.85rem' }}>{cat.type}</span></td>
-                        <td className="hide-mobile">{cat.order_idx}</td>
-                        <td>
-                          <div style={{ display: 'flex', gap: '1rem' }}>
-                            <button onClick={() => setEditingCategory(cat.id)} style={{ color: 'var(--on-surface)', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.875rem' }}>Editar</button>
-                            <form action={deleteCategory}>
-                              <input type="hidden" name="id" value={cat.id} />
-                              <button type="submit" style={{ color: 'var(--primary)', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.875rem' }}>Eliminar</button>
-                            </form>
+                        <td data-label="Nombre" style={{ fontWeight: 700 }}>{cat.name}</td>
+                        <td data-label="Tipo"><span className={`tag-type tag-type-${cat.type}`}>{cat.type}</span></td>
+                        <td data-label="Orden" className="hide-mobile" style={{ color: 'var(--admin-text-secondary)' }}>{cat.order_idx}</td>
+                        <td data-label="Acciones">
+                          <div style={{ display: 'flex', gap: '1.25rem' }}>
+                            <button
+                              onClick={() => setEditingCategory(cat.id)}
+                              style={{ color: 'var(--admin-text-main)', background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                              title="Editar"
+                            >
+                              <Pencil size={18} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setItemToDelete({ id: cat.id, name: cat.name, type: 'category' })}
+                              style={{ color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                              title="Eliminar"
+                            >
+                              <Trash2 size={18} />
+                            </button>
                           </div>
                         </td>
-
                       </>
                     )}
                   </tr>
@@ -211,7 +228,10 @@ export default function AdminManager({
                 <label>Orden</label>
                 <input name="order_idx" type="number" defaultValue="0" className="admin-input" />
               </div>
-              <button type="submit" className="btn" style={{ padding: '0.75rem 1.5rem', backgroundColor: 'var(--on-surface)', color: 'var(--surface)', borderRadius: '4px' }}>Añadir</button>
+              <button type="submit" className="btn-admin btn-admin-primary" style={{ height: '48px' }}>
+                <Plus size={18} />
+                Crear Producto
+              </button>
             </form>
           </div>
 
@@ -220,15 +240,15 @@ export default function AdminManager({
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
               <h2 className="title-md" style={{ margin: 0 }}>Listado de Productos</h2>
               <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
-                <button type="button" onClick={() => setFilterType('all')} style={{ padding: '0.5rem 1rem', background: filterType === 'all' ? 'var(--on-surface)' : 'transparent', color: filterType === 'all' ? 'var(--surface)' : 'var(--on-surface)', border: '1px solid var(--on-surface)', cursor: 'pointer', borderRadius: '4px', fontSize: '0.85rem' }}>Todos</button>
-                <button type="button" onClick={() => setFilterType('cafe')} style={{ padding: '0.5rem 1rem', background: filterType === 'cafe' ? 'var(--on-surface)' : 'transparent', color: filterType === 'cafe' ? 'var(--surface)' : 'var(--on-surface)', border: '1px solid var(--on-surface)', cursor: 'pointer', borderRadius: '4px', fontSize: '0.85rem' }}>Cafe</button>
-                <button type="button" onClick={() => setFilterType('bar')} style={{ padding: '0.5rem 1rem', background: filterType === 'bar' ? 'var(--on-surface)' : 'transparent', color: filterType === 'bar' ? 'var(--surface)' : 'var(--on-surface)', border: '1px solid var(--on-surface)', cursor: 'pointer', borderRadius: '4px', fontSize: '0.85rem' }}>Bar</button>
+                <button type="button" onClick={() => setFilterType('all')} style={{ padding: '0.5rem 1rem', background: filterType === 'all' ? 'var(--admin-text-main)' : '#fff', color: filterType === 'all' ? '#fff' : 'var(--admin-text-main)', border: '1px solid var(--admin-border)', cursor: 'pointer', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Todos</button>
+                <button type="button" onClick={() => setFilterType('cafe')} style={{ padding: '0.5rem 1rem', background: filterType === 'cafe' ? '#fef3c7' : '#fff', color: filterType === 'cafe' ? '#92400e' : 'var(--admin-text-main)', border: filterType === 'cafe' ? '1px solid #fde68a' : '1px solid var(--admin-border)', cursor: 'pointer', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Cafe</button>
+                <button type="button" onClick={() => setFilterType('bar')} style={{ padding: '0.5rem 1rem', background: filterType === 'bar' ? '#fee2e2' : '#fff', color: filterType === 'bar' ? '#991b1b' : 'var(--admin-text-main)', border: filterType === 'bar' ? '1px solid #fecaca' : '1px solid var(--admin-border)', cursor: 'pointer', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Bar</button>
               </div>
             </div>
-            
-            <input 
-              type="text" 
-              placeholder="Buscar por nombre..." 
+
+            <input
+              type="text"
+              placeholder="Buscar por nombre..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="admin-input"
@@ -254,46 +274,66 @@ export default function AdminManager({
                   <tr key={prod.id} style={{ opacity: prod.available ? 1 : 0.6 }}>
                     {editingProduct === prod.id ? (
 
-                      <td colSpan={7} style={{ padding: '1rem' }}>
-                        <form 
-                          action={(formData) => { updateProduct(formData); setEditingProduct(null); }} 
+                      <td colSpan={7}>
+                        <form
+                          action={(formData) => { updateProduct(formData); setEditingProduct(null); }}
                           className="inline-edit-form"
                         >
                           <input type="hidden" name="id" value={prod.id} />
-                          <input name="name" defaultValue={prod.name} required className="admin-input" style={{ flex: '1 1 150px' }} />
-                          <input name="price" type="number" step="0.01" defaultValue={prod.price} required className="admin-input" style={{ width: '90px' }} />
-                          <select name="category_id" defaultValue={prod.category_id || ""} required className="admin-input" style={{ flex: '1 1 150px' }}>
-                            {initialCategories.map(cat => (
-                              <option key={cat.id} value={cat.id}>{cat.name}</option>
-                            ))}
-                          </select>
-                          <select name="type" defaultValue={prod.type} required className="admin-input">
-                            <option value="cafe">Cafe</option>
-                            <option value="bar">Bar</option>
-                            <option value="both">Ambos</option>
-                          </select>
-                          <input name="order_idx" type="number" defaultValue={prod.order_idx ?? 0} className="admin-input" style={{ width: '60px' }} />
-                          
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.85rem' }}>
-                            <input name="available" type="checkbox" defaultChecked={prod.available} value="true" style={{ width: '18px', height: '18px' }} />
-                            Disp.
-                          </label>
+                          <div className="input-group">
+                            <label>Nombre</label>
+                            <input name="name" defaultValue={prod.name} required className="admin-input" />
+                          </div>
+                          <div className="input-group">
+                            <label>Precio</label>
+                            <input name="price" type="number" step="0.01" defaultValue={prod.price} required className="admin-input" />
+                          </div>
+                          <div className="input-group">
+                            <label>Categoría</label>
+                            <select name="category_id" defaultValue={prod.category_id || ""} required className="admin-input">
+                              {initialCategories.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="input-group">
+                            <label>Tipo Visual</label>
+                            <select name="type" defaultValue={prod.type} required className="admin-input">
+                              <option value="cafe">Cafe</option>
+                              <option value="bar">Bar</option>
+                              <option value="both">Ambos</option>
+                            </select>
+                          </div>
+                          <div className="input-group">
+                            <label>Orden</label>
+                            <input name="order_idx" type="number" defaultValue={prod.order_idx ?? 0} className="admin-input" />
+                          </div>
 
-                          <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: 'var(--on-surface)', color: 'var(--surface)', border: 'none', cursor: 'pointer', borderRadius: '4px' }}>Guardar</button>
-                          <button type="button" onClick={() => setEditingProduct(null)} style={{ padding: '0.5rem 1rem', cursor: 'pointer', background: 'none', border: '1px solid var(--on-surface-variant)', borderRadius: '4px' }}>Cancelar</button>
+                          <div className="input-group">
+                            <label>Disponibilidad</label>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.85rem', height: '100%' }}>
+                              <input name="available" type="checkbox" defaultChecked={prod.available} value="true" style={{ width: '20px', height: '20px' }} />
+                              Disponible
+                            </label>
+                          </div>
+
+                          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.25rem' }}>
+                            <button type="submit" className="btn-admin btn-admin-primary" title="Guardar"><Check size={20} /></button>
+                            <button type="button" onClick={() => setEditingProduct(null)} className="btn-admin btn-admin-secondary" title="Cancelar"><X size={20} /></button>
+                          </div>
                         </form>
                       </td>
 
                     ) : (
                       <>
-                        <td>
-                          <div style={{ fontWeight: 500 }}>{prod.name}</div>
+                        <td data-label="Producto">
+                          <div style={{ fontWeight: 700, color: 'var(--admin-text-main)' }}>{prod.name}</div>
                         </td>
-                        <td>${prod.price}</td>
-                        <td className="hide-mobile"><span style={{ fontSize: '0.85rem', color: 'var(--on-surface-variant)' }}>{prod.categories?.name || 'N/A'}</span></td>
-                        <td className="hide-mobile"><span style={{ textTransform: 'capitalize', fontSize: '0.85rem' }}>{prod.type}</span></td>
-                        <td className="hide-mobile">{prod.order_idx}</td>
-                        <td>
+                        <td data-label="Precio" style={{ fontWeight: 700, color: 'var(--primary)' }}>${prod.price}</td>
+                        <td data-label="Categoría" className="hide-mobile"><span style={{ fontSize: '0.8rem', color: 'var(--admin-text-secondary)', background: '#f1f5f9', padding: '2px 8px', borderRadius: '4px' }}>{prod.categories?.name || 'N/A'}</span></td>
+                        <td data-label="Tipo" className="hide-mobile"><span className={`tag-type tag-type-${prod.type}`}>{prod.type}</span></td>
+                        <td data-label="Orden" className="hide-mobile">{prod.order_idx}</td>
+                        <td data-label="Disp.">
                           <form action={updateProduct}>
                             <input type="hidden" name="id" value={prod.id} />
                             <input type="hidden" name="name" value={prod.name} />
@@ -302,23 +342,33 @@ export default function AdminManager({
                             <input type="hidden" name="type" value={prod.type} />
                             <input type="hidden" name="order_idx" value={prod.order_idx ?? ""} />
                             <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-                              <input 
-                                type="checkbox" 
-                                name="available" 
-                                defaultChecked={prod.available} 
-                                onChange={(e) => e.target.form?.requestSubmit()} 
-                                style={{ width: '18px', height: '18px' }}
+                              <input
+                                type="checkbox"
+                                name="available"
+                                defaultChecked={prod.available}
+                                onChange={(e) => e.target.form?.requestSubmit()}
+                                style={{ width: '20px', height: '20px', accentColor: 'var(--primary)' }}
                               />
                             </label>
                           </form>
                         </td>
-                        <td>
-                          <div style={{ display: 'flex', gap: '0.75rem' }}>
-                            <button onClick={() => setEditingProduct(prod.id)} style={{ color: 'var(--on-surface)', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.875rem' }}>Editar</button>
-                            <form action={deleteProduct}>
-                              <input type="hidden" name="id" value={prod.id} />
-                              <button type="submit" style={{ color: 'var(--primary)', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.875rem' }}>Eliminar</button>
-                            </form>
+                        <td data-label="Acciones">
+                          <div style={{ display: 'flex', gap: '1.25rem' }}>
+                            <button
+                              onClick={() => setEditingProduct(prod.id)}
+                              style={{ color: 'var(--admin-text-main)', background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                              title="Editar"
+                            >
+                              <Pencil size={18} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setItemToDelete({ id: prod.id, name: prod.name, type: 'product' })}
+                              style={{ color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}
+                              title="Eliminar"
+                            >
+                              <Trash2 size={18} />
+                            </button>
                           </div>
                         </td>
                       </>
@@ -327,6 +377,40 @@ export default function AdminManager({
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {itemToDelete && (
+        <div className="modal-overlay" onClick={() => setItemToDelete(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-icon-danger">
+                <AlertCircle size={24} />
+              </div>
+              <h3 className="title-md" style={{ margin: 0 }}>¿Estás seguro?</h3>
+            </div>
+            <p style={{ color: 'var(--admin-text-secondary)', lineHeight: 1.5, margin: 0 }}>
+              Estás por eliminar <strong>{itemToDelete.name}</strong>. Esta acción no se puede deshacer.
+            </p>
+            <div className="modal-actions">
+              <button 
+                type="button" 
+                className="btn-admin btn-admin-secondary" 
+                onClick={() => setItemToDelete(null)}
+              >
+                Cancelar
+              </button>
+              <button 
+                type="button" 
+                className="btn-admin btn-admin-primary" 
+                style={{ backgroundColor: '#ef4444' }}
+                onClick={confirmDelete}
+              >
+                Eliminar
+              </button>
+            </div>
           </div>
         </div>
       )}

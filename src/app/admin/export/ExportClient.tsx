@@ -89,61 +89,57 @@ export default function ExportClient() {
   };
 
   return (
-    <div>
+    <div className="export-page">
+      <h2 className="title-lg" style={{ marginBottom: '0.5rem' }}>Exportar Menús</h2>
+      <p style={{ color: 'var(--admin-text-secondary)', marginBottom: '2rem' }}>
+        Descargá los menús diseñados para compartir en Instagram Stories.
+      </p>
 
-
-      {/* Clickable previews */}
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div 
-          onClick={() => exportImage('export-cafe', 'menu-cafe.png')}
-          style={{ textAlign: 'center', cursor: 'pointer' }}
-          className="menu-preview-card"
-        >
-          <div style={{
-            width: '180px', height: '320px',
-            backgroundColor: '#F5F0E8', border: '4px solid #FF3300',
-            display: 'flex', flexDirection: 'column',
-            justifyContent: 'center', alignItems: 'center', gap: '12px',
-            transition: 'transform 0.2s',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+      {/* Clickable previews grid */}
+      <div className="previews-grid">
+        {/* Café Preview */}
+        <div className="preview-wrapper">
+          <div
+            onClick={() => exportImage('export-cafe', 'menu-cafe.png')}
+            className="menu-preview-card"
+            style={{ backgroundColor: '#F5F0E8', borderColor: '#FF3300' }}
           >
-            <div style={{ fontSize: '32px', fontWeight: 900, color: '#131313', letterSpacing: '-1.5px' }}>MENU</div>
+            <div style={{ fontSize: '32px', fontWeight: 900, color: '#131313', letterSpacing: '-1.5px', textAlign: 'center' }}>MENU</div>
             <div style={{ width: '80%', height: '3px', backgroundColor: '#FF3300' }} />
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#131313', opacity: 0.6, textTransform: 'uppercase' }}>Cafetería</div>
           </div>
-          <p style={{ fontSize: '14px', fontWeight: 600, marginTop: '12px', color: '#131313' }}>Descargar Café</p>
+          <p className="preview-title">Descargar Café</p>
         </div>
 
-        <div 
-          onClick={() => exportImage('export-bar', 'menu-bar.png')}
-          style={{ textAlign: 'center', cursor: 'pointer' }}
-          className="menu-preview-card"
-        >
-          <div style={{
-            width: '180px', height: '320px',
-            backgroundColor: '#FF3300', border: '4px solid #131313',
-            display: 'flex', flexDirection: 'column',
-            justifyContent: 'center', alignItems: 'center', gap: '12px',
-            transition: 'transform 0.2s',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        {/* Bar Preview */}
+        <div className="preview-wrapper">
+          <div
+            onClick={() => exportImage('export-bar', 'menu-bar.png')}
+            className="menu-preview-card"
+            style={{ backgroundColor: '#FF3300', borderColor: '#131313' }}
           >
-            <div style={{ fontSize: '32px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-1.5px' }}>MENU</div>
+            <div style={{ fontSize: '32px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-1.5px', textAlign: 'center' }}>MENU</div>
             <div style={{ width: '80%', height: '3px', backgroundColor: '#131313' }} />
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', opacity: 0.8, textTransform: 'uppercase' }}>Bar</div>
           </div>
-          <p style={{ fontSize: '14px', fontWeight: 600, marginTop: '12px', color: '#131313' }}>Descargar Bar</p>
+          <p className="preview-title">Descargar Bar</p>
         </div>
       </div>
 
-      <p style={{ marginTop: '1.5rem', fontSize: '13px', opacity: 0.5 }}>
-        La descarga genera un PNG de 1080×1920 px listo para Instagram Stories.
-      </p>
+      <div style={{
+        marginTop: '3rem',
+        padding: '1rem',
+        backgroundColor: 'rgba(59, 130, 246, 0.05)',
+        borderRadius: '12px',
+        border: '1px solid rgba(59, 130, 246, 0.1)',
+        display: 'flex',
+        gap: '0.75rem',
+        alignItems: 'center'
+      }}>
+        <p style={{ fontSize: '13px', color: '#131313', opacity: 0.7, margin: 0 }}>
+          La descarga genera un PNG de <strong>1080×1920 px</strong> de alta resolución, optimizado para Instagram.
+        </p>
+      </div>
     </div>
   );
 }

@@ -26,10 +26,11 @@ export default async function PublicMenu({ theme }: PublicMenuProps) {
   const categories = categoriesResponse.data;
   const products = productsResponse.data;
 
+  const showAnimation = process.env.NEXT_PUBLIC_SHOW_ANIMATIONS !== 'false';
 
   return (
     <main className={`public-menu-container theme-${theme}`}>
-      <BackgroundPattern />
+      <BackgroundPattern showAnimation={showAnimation} />
       <nav className="glass-nav">
         <Link href="/" className="back-link btn">
           ← VOLVER

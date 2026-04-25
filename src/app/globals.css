@@ -4,10 +4,12 @@
   --primary: #ff3300;
   --primary-container: #ff3300;
   --on-primary-container: #131313;
-  
+
   /* Cream Tones */
-  --cream-bright: #FCFAF5; /* Slightly whiter cream, ultra-subtle */
-  --cream-warm: #FDE8CD;   /* Richer, warmer cream */
+  --cream-bright: #FCFAF5;
+  /* Slightly whiter cream, ultra-subtle */
+  --cream-warm: #FDE8CD;
+  /* Richer, warmer cream */
 
   --secondary: var(--cream-warm);
   --on-secondary: #131313;
@@ -18,18 +20,20 @@
   --surface-container: #333333;
   --surface-container-high: #444444;
   --surface-container-highest: #555555;
-  
+
   --font-display: 'Epilogue', sans-serif;
   --font-body: 'Manrope', sans-serif;
   --font-label: 'Space Grotesk', monospace;
-  --font-export: Arial, Helvetica, sans-serif; /* For the screenshot match */
+  --font-export: Arial, Helvetica, sans-serif;
+  /* For the screenshot match */
 
   /* Cafe Mode Colors (Light) */
   --cafe-bg: var(--cream-bright);
   --cafe-fg: #131313;
 
   /* Bar Mode Colors */
-  --bar-bg: var(--cream-bright); /* Apply back to bar as requested */
+  --bar-bg: var(--cream-bright);
+  /* Apply back to bar as requested */
   --bar-fg: #131313;
 }
 
@@ -44,19 +48,22 @@ body {
   color: var(--on-surface);
   font-family: var(--font-body);
   /* The "No-Line" Rule */
-  border-radius: 0; 
+  border-radius: 0;
 }
 
 /* Brutalist resets */
-button, input, select, textarea {
-  border-radius: 0 !important;
+button,
+input,
+select,
+textarea {
   font-family: inherit;
   border: none;
 }
 
 button {
   cursor: pointer;
-  transition: all 0.15s linear; /* "Hard-cut" / snappy transitions */
+  transition: all 0.15s linear;
+  /* "Hard-cut" / snappy transitions */
 }
 
 a {
@@ -108,6 +115,7 @@ a {
   background-color: var(--primary-container);
   color: var(--on-primary-container);
 }
+
 .btn-primary:hover {
   background-color: var(--on-primary-container);
   color: var(--primary-container);
@@ -117,6 +125,7 @@ a {
   background-color: var(--secondary);
   color: var(--on-secondary);
 }
+
 .btn-secondary:hover {
   background-color: var(--on-secondary);
   color: var(--secondary);
@@ -126,25 +135,12 @@ a {
 .surface-low {
   background-color: var(--surface-container-low);
 }
+
 .surface-highest {
   background-color: var(--surface-container-highest);
 }
 
-/* Admin panel utility classes */
-.admin-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: var(--surface);
-  color: var(--on-surface);
-  min-height: 100dvh;
-}
 
-.admin-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--surface-container-high); /* Ghost border fallback */
-}
 
 /* The export table exact matches */
 .export-table {
@@ -154,7 +150,8 @@ a {
   color: #000;
 }
 
-.export-table th, .export-table td {
+.export-table th,
+.export-table td {
   border: 1px solid #000;
   padding: 8px 12px;
   text-align: left;

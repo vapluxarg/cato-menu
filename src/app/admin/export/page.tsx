@@ -20,10 +20,6 @@ export default async function ExportPage() {
         rel="stylesheet"
       />
 
-      <h1 className="headline-lg">Exportar Menú</h1>
-      <p className="body-md" style={{ marginBottom: '2rem' }}>
-        Hacé clic en las miniaturas de abajo para descargar la imagen en formato 9:16 para Instagram Stories.
-      </p>
 
       {/*
         These menus are rendered at FULL resolution (1080px wide) completely off-screen.
@@ -34,7 +30,7 @@ export default async function ExportPage() {
         {/* @ts-ignore */}
         <ExportableMenu id="export-cafe" theme="cafe" categories={categories ?? []} products={products ?? []} />
         {/* @ts-ignore */}
-        <ExportableMenu id="export-bar"  theme="bar"  categories={categories ?? []} products={products ?? []} />
+        <ExportableMenu id="export-bar" theme="bar" categories={categories ?? []} products={products ?? []} />
       </div>
 
       {/* Client component: just buttons + placeholder previews */}

@@ -30,6 +30,11 @@
   animation: panProfessionalPattern 30s linear infinite;
 }
 
+.no-animation .professional-bg-pattern,
+.professional-bg-pattern.no-animation {
+  animation: none !important;
+}
+
 @keyframes panProfessionalPattern {
   0% { transform: translate(-160px, -160px); }
   100% { transform: translate(0px, 0px); }
