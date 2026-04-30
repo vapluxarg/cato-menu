@@ -1,33 +1,39 @@
 :root {
-  --admin-bg: #f8fafc;
+  --admin-bg: #DDD6CE;
   --admin-card-bg: #ffffff;
-  --admin-text-main: #0f172a;
-  --admin-text-secondary: #475569;
-  --admin-border: #e2e8f0;
-  --admin-accent: #3b82f6;
+  --admin-text-main: #222222;
+  --admin-text-secondary: rgba(34, 34, 34, 0.7);
+  --admin-border: #222222;
+  --admin-accent: #FF3C00;
   --admin-success: #10b981;
-  --admin-danger: #ef4444;
+  --admin-danger: #FF3C00;
 }
 
 /* Typography Scale */
 .title-lg {
+  font-family: var(--font-display);
   font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--admin-text-main);
   margin-bottom: 0.5rem;
+  text-transform: uppercase;
 }
 
 .title-md {
+  font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--admin-text-main);
+  text-transform: uppercase;
 }
 
 .title-sm {
+  font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
   color: var(--admin-text-main);
+  text-transform: uppercase;
 }
 
 .label-md {
@@ -121,8 +127,15 @@
 }
 
 @keyframes cardAppear {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .form-grid {
@@ -147,11 +160,13 @@
   border-bottom: 1px solid var(--admin-border);
   padding-bottom: 1rem;
   overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .admin-tabs-container::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
+  /* Chrome/Safari */
 }
 
 .tab-btn {
@@ -618,7 +633,7 @@ select.admin-input {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  border: 4px solid #131313;
+  border: 4px solid #222222;
 }
 
 .menu-preview-card:hover {

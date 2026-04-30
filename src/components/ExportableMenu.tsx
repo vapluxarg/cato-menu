@@ -45,99 +45,74 @@ function InvertibleImage({ src, invert, style, alt }: { src: string; invert: boo
   return <img src={currentSrc} style={style} alt={alt} />;
 }
 
-function CoffeeIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 9h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V9z" />
-      <path d="M18 9h1a3 3 0 0 1 0 6h-1" />
-      <path d="M6 2 Q7 4 6 6" />
-      <path d="M10 2 Q11 4 10 6" />
-      <path d="M14 2 Q15 4 14 6" />
-    </svg>
-  );
-}
-
-function CocktailIcon({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="3 2 21 2 12 13" />
-      <line x1="12" y1="13" x2="12" y2="20" />
-      <line x1="7" y1="20" x2="17" y2="20" />
-      <circle cx="16.5" cy="5" r="1.5" fill={color} />
-      <line x1="16.5" y1="2" x2="16.5" y2="5" />
-    </svg>
-  );
-}
-
 export default function ExportableMenu({ theme, categories, products, id }: ExportableMenuProps) {
   const isCafe = theme === 'cafe';
 
   // ── Palette ────────────────────────────────────────────────────
-  const bg = isCafe ? '#FCFAF5' : '#FF3300'; // Cream Bright vs Red
-  const fg = '#131313'; // Brutalist Black
-  const accents = isCafe ? '#FF3300' : '#FFFFFF';
-  const secondaryFg = isCafe ? 'rgba(19, 19, 19, 0.7)' : 'rgba(255, 255, 255, 0.8)';
+  const bg = isCafe ? '#DDD6CE' : '#FF3C00'; // Cream Bright vs Red
+  const fg = '#222222'; // Brutalist Black
+  const accents = isCafe ? '#FF3C00' : '#FFFFFF';
+  const secondaryFg = isCafe ? 'rgba(34, 34, 34, 0.7)' : 'rgba(255, 255, 255, 0.8)';
 
-  const filteredCats = categories.filter(
-    c => c.type === theme || c.type === 'both'
-  );
+  const filteredCats = categories.filter(c => c.type === theme || c.type === 'both');
 
   let activeCatsCount = 0;
-  let totalProdsCount = 0;
   let unscaledHeight = 0;
 
   filteredCats.forEach(cat => {
     const prods = products.filter(p => p.category_id === cat.id && p.available !== false);
     if (prods.length > 0) {
       activeCatsCount++;
-      totalProdsCount += prods.length;
 
-      unscaledHeight += 52; // Cat title 
-      unscaledHeight += 30; // catGap
-      unscaledHeight += 60; // menuGap
+      unscaledHeight += 40; // Cat title 
+      unscaledHeight += 20; // catGap
+      unscaledHeight += 30; // Extra category padding
 
       prods.forEach(prod => {
-        unscaledHeight += 42; // Prod title
+        unscaledHeight += 28; // Prod title
+        unscaledHeight += 4; // gap between title and desc
+        unscaledHeight += 8; // marginBottom of dotted line
         if (prod.description) {
-          unscaledHeight += 6;
-          unscaledHeight += 31; // desc lines
+          const lines = Math.ceil(prod.description.length / 45);
+          unscaledHeight += (20 * lines); // desc lines
         }
-        unscaledHeight += 20; // prodGap
+        unscaledHeight += 16; // prodGap
       });
     }
   });
 
-  if (activeCatsCount > 0) {
-    unscaledHeight -= 60; // Remove last menuGap
-  }
+  // Decide if we need 1 or 2 columns based on total content height.
+  // 1300 is roughly the available height for content in 1080x1920
+  const useTwoColumns = unscaledHeight > 1300;
+  const columnCount = useTwoColumns ? 2 : 1;
 
-  // available height ~1350px (conservative)
+  // We add a tiny bit of scale down if it overflows even 2 columns
   let scale = 1;
-  if (unscaledHeight > 0) {
-    scale = 1350 / unscaledHeight;
+  const maxAvailableHeight = 1300 * columnCount;
+  if (unscaledHeight > maxAvailableHeight) {
+    scale = maxAvailableHeight / unscaledHeight;
   }
+  if (scale > 1) scale = 1;
+  if (scale < 0.65) scale = 0.65; // Prevent becoming unreadable
 
-  if (scale > 2.2) scale = 2.2;
-  if (scale < 0.35) scale = 0.35;
-
-  const menuGap = Math.max(10, 60 * scale) + 'px';
-  const catGap = Math.max(10, 30 * scale) + 'px';
-  const prodGap = Math.max(5, 20 * scale) + 'px';
-  const catFontSize = Math.max(20, 52 * scale) + 'px';
-  const prodFontSize = Math.max(16, 42 * scale) + 'px';
-  const priceFontSize = Math.max(16, 42 * scale) + 'px';
-  const descFontSize = Math.max(10, 24 * scale) + 'px';
+  const catFontSize = (useTwoColumns ? 36 : 46) * scale + 'px';
+  const prodFontSize = (useTwoColumns ? 24 : 32) * scale + 'px';
+  const priceFontSize = (useTwoColumns ? 24 : 32) * scale + 'px';
+  const descFontSize = (useTwoColumns ? 15 : 20) * scale + 'px';
+  const catGap = (useTwoColumns ? 20 : 30) * scale + 'px';
+  const prodGap = (useTwoColumns ? 16 : 20) * scale + 'px';
+  const innerGap = (useTwoColumns ? 4 : 6) * scale + 'px';
+  const lineMargin = (useTwoColumns ? 6 : 10) * scale + 'px';
+  const categorySpacing = (useTwoColumns ? 40 : 60) * scale + 'px';
 
   return (
     <div
       id={id}
+      className="export-page-node"
       style={{
         width: '1080px',
         height: '1920px',
         backgroundColor: bg,
-        fontFamily: "'Epilogue', 'Arial', sans-serif",
         color: fg,
         boxSizing: 'border-box',
         display: 'flex',
@@ -193,6 +168,7 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1 style={{
+            fontFamily: "var(--font-momo, 'Momo Trust Display')",
             fontSize: '90px',
             fontWeight: 900,
             color: isCafe ? fg : '#FFFFFF',
@@ -210,6 +186,7 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
             marginTop: '15px'
           }} />
           <p style={{
+            fontFamily: "'Helvetica', 'Arial', sans-serif",
             fontSize: '22px',
             fontWeight: 700,
             letterSpacing: '8px',
@@ -225,12 +202,12 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
       {/* ── MENU CONTENT ──────────────────────────────────── */}
       <div style={{
         flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        gap: menuGap,
         zIndex: 10,
-        position: 'relative'
+        position: 'relative',
+        columnCount: columnCount,
+        columnGap: '60px',
+        columnFill: 'auto',
+        height: '1400px'
       }}>
         {filteredCats.map((cat) => {
           const prods = products.filter(
@@ -239,10 +216,18 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
           if (prods.length === 0) return null;
 
           return (
-            <div key={cat.id} style={{ display: 'flex', flexDirection: 'column', gap: catGap }}>
+            <div key={cat.id} style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: catGap, 
+              marginBottom: categorySpacing,
+              breakInside: 'avoid',
+              pageBreakInside: 'avoid'
+            }}>
               {/* Category Heading */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                 <h2 style={{
+                  fontFamily: "var(--font-momo, 'Momo Trust Display')",
                   fontSize: catFontSize,
                   fontWeight: 900,
                   color: accents,
@@ -258,13 +243,20 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
               {/* Product List */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: prodGap }}>
                 {prods.map((prod) => (
-                  <div key={prod.id} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div key={prod.id} style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    gap: innerGap,
+                    breakInside: 'avoid',
+                    pageBreakInside: 'avoid'
+                  }}>
                     <div style={{
                       display: 'flex',
                       alignItems: 'baseline',
-                      gap: '15px'
+                      gap: '10px'
                     }}>
                       <span style={{
+                        fontFamily: "'Helvetica', 'Arial', sans-serif",
                         fontSize: prodFontSize,
                         fontWeight: 700,
                         color: fg,
@@ -274,11 +266,12 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
                       </span>
                       <div style={{
                         flex: 1,
-                        borderBottom: `4px dotted ${secondaryFg}`,
-                        marginBottom: '10px',
-                        opacity: 0.5
+                        borderBottom: `3px dotted ${secondaryFg}`,
+                        marginBottom: lineMargin,
+                        opacity: 0.4
                       }} />
                       <span style={{
+                        fontFamily: "'Helvetica', 'Arial', sans-serif",
                         fontSize: priceFontSize,
                         fontWeight: 900,
                         color: accents,
@@ -288,11 +281,12 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
                     </div>
                     {prod.description && (
                       <p style={{
+                        fontFamily: "'Helvetica', 'Arial', sans-serif",
                         margin: 0,
                         fontSize: descFontSize,
                         color: secondaryFg,
                         fontWeight: 500,
-                        maxWidth: '85%',
+                        maxWidth: '90%',
                         lineHeight: 1.3
                       }}>
                         {prod.description}
@@ -305,8 +299,6 @@ export default function ExportableMenu({ theme, categories, products, id }: Expo
           );
         })}
       </div>
-
-
 
       {/* ── BOTTOM DECORATION ─────────────────────────────── */}
       <div style={{

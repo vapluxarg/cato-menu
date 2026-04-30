@@ -38,11 +38,11 @@ export default function Home() {
         <div className="home-actions">
           <Link href="/cafe" className="home-action-btn cafe-action-btn" prefetch={true}>
             <Coffee size={24} />
-            <span className="title-lg" style={{ fontSize: "1.5rem" }}>Cafetería</span>
+            <span className="title-lg" style={{ fontSize: "1.5rem", fontWeight: "normal", textTransform: "capitalize", marginBottom: 0 }}>Cafetería</span>
           </Link>
           <Link href="/bar" className="home-action-btn bar-action-btn" prefetch={true}>
             <Martini size={24} />
-            <span className="title-lg" style={{ fontSize: "1.5rem" }}>Bar</span>
+            <span className="title-lg" style={{ fontSize: "1.5rem", fontWeight: "normal", textTransform: "capitalize", marginBottom: 0 }}>Bar</span>
           </Link>
         </div>
       </div>

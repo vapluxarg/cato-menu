@@ -32,7 +32,7 @@ export default async function PublicMenu({ theme }: PublicMenuProps) {
     <main className={`public-menu-container theme-${theme}`}>
       <BackgroundPattern showAnimation={showAnimation} />
       <nav className="glass-nav">
-        <Link href="/" className="back-link btn">
+        <Link href="/" className="back-link btn" prefetch={true}>
           ← VOLVER
         </Link>
         <Image src="/cato.svg" alt="Cato Logo" width={100} height={40} className="nav-logo" />

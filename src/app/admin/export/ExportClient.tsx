@@ -67,7 +67,7 @@ export default function ExportClient() {
     const ctx = out.getContext('2d')!;
 
     // Fill background matching the theme
-    ctx.fillStyle = id.includes('cafe') ? '#FCFAF5' : '#FF3300';
+    ctx.fillStyle = id.includes('cafe') ? '#DDD6CE' : '#FF3C00';
     ctx.fillRect(0, 0, TARGET_W, TARGET_H);
 
     // Scale-to-fit, centered
@@ -102,11 +102,11 @@ export default function ExportClient() {
           <div
             onClick={() => exportImage('export-cafe', 'menu-cafe.png')}
             className="menu-preview-card"
-            style={{ backgroundColor: '#F5F0E8', borderColor: '#FF3300' }}
+            style={{ backgroundColor: '#DDD6CE', borderColor: '#FF3C00' }}
           >
-            <div style={{ fontSize: '32px', fontWeight: 900, color: '#131313', letterSpacing: '-1.5px', textAlign: 'center' }}>MENU</div>
-            <div style={{ width: '80%', height: '3px', backgroundColor: '#FF3300' }} />
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#131313', opacity: 0.6, textTransform: 'uppercase' }}>Cafetería</div>
+            <div style={{ fontSize: '32px', fontWeight: 900, color: '#222222', letterSpacing: '-1.5px', textAlign: 'center', fontFamily: "var(--font-momo, sans-serif)" }}>MENU</div>
+            <div style={{ width: '80%', height: '3px', backgroundColor: '#FF3C00' }} />
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#222222', opacity: 0.6, textTransform: 'uppercase' }}>Cafetería</div>
           </div>
           <p className="preview-title">Descargar Café</p>
         </div>
@@ -116,10 +116,10 @@ export default function ExportClient() {
           <div
             onClick={() => exportImage('export-bar', 'menu-bar.png')}
             className="menu-preview-card"
-            style={{ backgroundColor: '#FF3300', borderColor: '#131313' }}
+            style={{ backgroundColor: '#FF3C00', borderColor: '#222222' }}
           >
-            <div style={{ fontSize: '32px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-1.5px', textAlign: 'center' }}>MENU</div>
-            <div style={{ width: '80%', height: '3px', backgroundColor: '#131313' }} />
+            <div style={{ fontSize: '32px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-1.5px', textAlign: 'center', fontFamily: "var(--font-momo, sans-serif)" }}>MENU</div>
+            <div style={{ width: '80%', height: '3px', backgroundColor: '#222222' }} />
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', opacity: 0.8, textTransform: 'uppercase' }}>Bar</div>
           </div>
           <p className="preview-title">Descargar Bar</p>
@@ -136,7 +136,7 @@ export default function ExportClient() {
         gap: '0.75rem',
         alignItems: 'center'
       }}>
-        <p style={{ fontSize: '13px', color: '#131313', opacity: 0.7, margin: 0 }}>
+        <p style={{ fontSize: '13px', color: '#222222', opacity: 0.7, margin: 0 }}>
           La descarga genera un PNG de <strong>1080×1920 px</strong> de alta resolución, optimizado para Instagram.
         </p>
       </div>

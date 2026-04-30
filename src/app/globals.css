@@ -1,40 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+/* 
+  Momo Trust Display is now loaded via next/font/local in layout.tsx.
+*/
 
 :root {
-  --primary: #ff3300;
-  --primary-container: #ff3300;
-  --on-primary-container: #131313;
+  --primary: #ff3c00;
+  --primary-container: #ff3c00;
+  --on-primary-container: #222222;
 
   /* Cream Tones */
   --cream-bright: #FCFAF5;
   /* Slightly whiter cream, ultra-subtle */
   --cream-warm: #FDE8CD;
-  /* Richer, warmer cream */
+  /* Brand Off White */
+
 
   --secondary: var(--cream-warm);
-  --on-secondary: #131313;
-  --surface: #131313;
-  --on-surface: #ffffff;
-  --surface-container-lowest: #1c1c1c;
-  --surface-container-low: #2a2a2a;
-  --surface-container: #333333;
-  --surface-container-high: #444444;
-  --surface-container-highest: #555555;
+  --on-secondary: #222222;
+  --surface: #222222;
+  --on-surface: #ddd6ce;
+  --surface-container-lowest: #111111;
+  --surface-container-low: #1a1a1a;
+  --surface-container: #222222;
+  --surface-container-high: #333333;
+  --surface-container-highest: #444444;
 
-  --font-display: 'Epilogue', sans-serif;
-  --font-body: 'Manrope', sans-serif;
-  --font-label: 'Space Grotesk', monospace;
-  --font-export: Arial, Helvetica, sans-serif;
-  /* For the screenshot match */
+  /* Fonts */
+  --font-display: var(--font-momo, 'Helvetica', 'Arial', sans-serif);
+  --font-body: 'Helvetica', 'Arial', sans-serif;
+  --font-label: 'Helvetica', 'Arial', sans-serif;
+  --font-export: 'Helvetica', 'Arial', sans-serif;
 
   /* Cafe Mode Colors (Light) */
-  --cafe-bg: var(--cream-bright);
-  --cafe-fg: #131313;
+  --cafe-bg: #FCFAF5;
+  --cafe-fg: #222222;
 
   /* Bar Mode Colors */
-  --bar-bg: var(--cream-bright);
-  /* Apply back to bar as requested */
-  --bar-fg: #131313;
+  --bar-bg: #ddd6ce;
+  --bar-fg: #222222;
 }
 
 * {
@@ -82,7 +84,7 @@ a {
 
 .headline-lg {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
